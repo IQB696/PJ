@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,7 +141,13 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+# SMTP configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'quatro699@gmail.com'
+EMAIL_HOST_PASSWORD = '321456Qq'
+EMAIL_USE_TLS = True
