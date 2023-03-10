@@ -3,6 +3,7 @@
 
 {% block content %}
 
+
     <section class="section-content padding-y bg">
         <div class="container">
 
@@ -13,7 +14,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title mb-4">Billing Address</h4>
-                            <form action="" method="POST">
+                            <form action="{% url 'place_order' %}" method="POST">
                                 {% csrf_token %}
                                 <div class="form-row">
                                     <div class="col form-group">
@@ -28,11 +29,11 @@
                                 <div class="form-row">
                                     <div class="col form-group">
                                         <label for="">Email</label>
-                                        <input type="text" name="email" class="form-control" required>
+                                        <input type="email" name="email" class="form-control" required>
                                     </div>
                                     <div class="col form-group">
                                         <label for="">Phone Number</label>
-                                        <input type="text" name="phone_nubmer" class="form-control" required>
+                                        <input type="text" name="phone" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -41,7 +42,7 @@
                                         <input type="text" name="address_line_1" class="form-control" required>
                                     </div>
                                     <div class="col form-group">
-                                        <label for="">Address Line 1</label>
+                                        <label for="">Address Line 2</label>
                                         <input type="text" name="address_line_2" class="form-control">
                                     </div>
                                 </div>
@@ -51,14 +52,20 @@
                                         <input type="text" name="city" class="form-control" required>
                                     </div>
                                     <div class="col form-group">
+                                        <label for="">State</label>
+                                        <input type="text" name="state" class="form-control" required>
+                                    </div>
+                                    <div class="col form-group">
                                         <label for="">Country</label>
-                                        <input type="text" name="country" class="form-control">
+                                        <input type="text" name="country" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <label for="">Order Note</label>
                                     <textarea name="order_note" rows="2" class="form-control"></textarea>
                                 </div>
+
+
                         </div>
                     </div> <!-- card.// -->
 
@@ -73,6 +80,7 @@
                                     <th scope="col">Product</th>
                                     <th scope="col" width="120">Quantity</th>
                                     <th scope="col" width="120">Price</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -98,6 +106,7 @@
                                             </figure>
                                         </td>
                                         <td>
+                                            <!-- col.// -->
                                             <label for="">{{ cart_item.quantity }}</label>
                                         </td>
                                         <td>
@@ -106,21 +115,25 @@
                                                 <small class="text-muted"> $ {{ cart_item.product.price }} each </small>
                                             </div> <!-- price-wrap .// -->
                                         </td>
+
                                     </tr>
                                 {% endfor %}
 
                                 </tbody>
                             </table>
-                            <button type="submit" name="submit" class="btn btn-primary btn-block"> Place Order</button>
+
+                            <button type="submit" name="submit" class="btn btn-primary btn-block">Place Order</button>
                             <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
                             </form>
                         </div> <!-- card-body.// -->
                     </div> <!-- card.// -->
 
+
                 </aside> <!-- col.// -->
 
 
             </div> <!-- row.// -->
+
             <!-- ============================ COMPONENT 1 END .// ================================= -->
 
         </div> <!-- container .//  -->
