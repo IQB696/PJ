@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect
-from django.core.mail import EmailMessage
-from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
-
-from store.models import Product
 from carts.models import CartItem
 from .forms import OrderForm
-from .models import Order, Payment, OrderProduct
-
 import datetime
+from .models import Order, Payment, OrderProduct
 import json
+from store.models import Product
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 
 def payments(request):
@@ -18,11 +16,11 @@ def payments(request):
 
     # Store transaction details inside Payment model
     payment = Payment(
-        user=request.user,
-        payment_id=body['transID'],
-        payment_method=body['payment_method'],
-        amount_paid=order.order_total,
-        status=body['status'],
+        user = request.user,
+        payment_id = body['transID'],
+        payment_method = body['payment_method'],
+        amount_paid = order.order_total,
+        status = body['status'],
     )
     payment.save()
 
@@ -50,6 +48,7 @@ def payments(request):
         orderproduct.variations.set(product_variation)
         orderproduct.save()
 
+
         # Reduce the quantity of the sold products
         product = Product.objects.get(id=item.product_id)
         product.stock -= item.quantity
@@ -75,8 +74,7 @@ def payments(request):
     }
     return JsonResponse(data)
 
-
-def place_order(request, total=0, quantity=0, ):
+def place_order(request, total=0, quantity=0,):
     current_user = request.user
 
     # If the cart count is less than or equal to 0, then redirect back to shop
@@ -90,7 +88,7 @@ def place_order(request, total=0, quantity=0, ):
     for cart_item in cart_items:
         total += (cart_item.product.price * cart_item.quantity)
         quantity += cart_item.quantity
-    tax = (2 * total) / 100
+    tax = (2 * total)/100
     grand_total = total + tax
 
     if request.method == 'POST':
@@ -117,8 +115,8 @@ def place_order(request, total=0, quantity=0, ):
             yr = int(datetime.date.today().strftime('%Y'))
             dt = int(datetime.date.today().strftime('%d'))
             mt = int(datetime.date.today().strftime('%m'))
-            d = datetime.date(yr, mt, dt)
-            current_date = d.strftime("%Y%m%d")  # 20210305
+            d = datetime.date(yr,mt,dt)
+            current_date = d.strftime("%Y%m%d") #20210305
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()

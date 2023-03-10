@@ -129,36 +129,36 @@ def logout(request):
     return redirect('login')
 
 
-# def activate(request, uidb64, token):
-#     try:
-#         uid = urlsafe_base64_decode(uidb64).decode()
-#         user = Account._default_manager.get(pk=uid)
-#     except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
-#         user = None
-#
-#     if user is not None and default_token_generator.check_token(user, token):
-#         user.is_active = True
-#         user.save()
-#         messages.success(request, 'Congratulations! Your account is activated.')
-#         return redirect('login')
-#     else:
-#         messages.error(request, 'Invalid activation link')
-#         return redirect('register')
-
-
 def activate(request, uidb64, token):
-
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = Account._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
         user = None
-    if user is not None and account_activation_token.check_token(user, token):
+
+    if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        messages.success(request, 'Congratulations! Your account is activated.')
+        return redirect('login')
     else:
-        return HttpResponse('Activation link is invalid!')
+        messages.error(request, 'Invalid activation link')
+        return redirect('register')
+
+
+# def activate(request, uidb64, token):
+#
+#     try:
+#         uid = urlsafe_base64_decode(uidb64).decode()
+#         user = User.objects.get(pk=uid)
+#     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+#     if user is not None and account_activation_token.check_token(user, token):
+#         user.is_active = True
+#         user.save()
+#         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+#     else:
+#         return HttpResponse('Activation link is invalid!')
 
 
 @login_required(login_url = 'login')
